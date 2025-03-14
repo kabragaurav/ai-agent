@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "A very simple AI agent from Gaurav Kabra",
   "main": "index.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -25,6 +26,7 @@
   },
   "homepage": "https://github.com/kabragaurav/ai-agent#readme",
   "dependencies": {
-    "openai": "^4.87.3"
+    "openai": "^4.87.3",
+    "readline-sync": "^1.4.10"
   }
 }
