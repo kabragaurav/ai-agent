@@ -1,15 +1,34 @@
 import OpenAI from "openai"
 import readlineSync from 'readline-sync';
 import fetch from 'node-fetch';
+import dotenv from 'dotenv';
+import path from 'path';
+import fs from 'fs';
 
 /**
  * @author kabragaurav
  */
 
-// Get your API key from https://platform.openai.com/api-keys
-const OPENAI_API_KEY = "<Get your API key from https://platform.openai.com/api-keys>";
+// Load environment variables from .env file
+// Create a .env file in your project root with:
+// OPENAI_API_KEY=your_openai_key_here
+// WEATHER_API_KEY=your_weather_api_key_here
+const envPath = path.join(process.cwd(), '.env');
+if (!fs.existsSync(envPath)) {
+    console.error('Please create a .env file in the project root with your API keys');
+    process.exit(1);
+}
+dotenv.config();
+
+// Verify environment variables are loaded
+if (!process.env.OPENAI_API_KEY || !process.env.WEATHER_API_KEY) {
+    console.error('Missing required environment variables. Please check your .env file');
+    process.exit(1);
+}
+
+// Initialize OpenAI client with API key from environment
 const client = new OpenAI({
-    apiKey: OPENAI_API_KEY
+    apiKey: process.env.OPENAI_API_KEY
 });
 
 
@@ -27,9 +46,7 @@ async function getTemperatureDetails(city = '') {
     }
     
     try {
-        // You need to sign up at https://openweathermap.org/ to get your API key
-        const WEATHER_API_KEY = "<get keys using url in above comment. It will take ~10 mins to get keys activated>";
-        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${WEATHER_API_KEY}`;
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${process.env.WEATHER_API_KEY}`;
         
         console.log(`Fetching weather data for: ${city}`);
         const response = await fetch(url);

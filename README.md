@@ -20,6 +20,16 @@ Obtain OpenAPI keys from [here](https://platform.openai.com/api-keys).
 
 Check your remaining credit quota [here](https://platform.openai.com/settings/organization/billing/overview).
 
+Also get keys for getting weather details from [here](https://api.openweathermap.org/). Once you generate key, key will take ~10 mins to become activated.
+
+Then put this in a new `.env` file, which you need to create in root folder of the project.
+E.g.
+
+```
+OPENAI_API_KEY=<value here without quotes>
+WEATHER_API_KEY=<value here without quotes>
+```
+
 ## Insights
 
 #### 1.
@@ -77,3 +87,4 @@ It is able to apply AI over output (e.g. °C to °F conversions)
 
 #### 4. Integrating live weather API using Cursor AI editing
 ![](./assets/sample8.png)
+![](./assets/sample9.png)

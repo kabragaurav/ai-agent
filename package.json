@@ -26,6 +26,8 @@
   },
   "homepage": "https://github.com/kabragaurav/ai-agent#readme",
   "dependencies": {
+    "dotenv": "^16.4.7",
+    "node-fetch": "^3.3.2",
     "openai": "^4.87.3",
     "readline-sync": "^1.4.10"
   }
