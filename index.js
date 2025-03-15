@@ -1,5 +1,6 @@
 import OpenAI from "openai"
 import readlineSync from 'readline-sync';
+import fetch from 'node-fetch';
 
 /**
  * @author kabragaurav
@@ -16,16 +17,34 @@ const client = new OpenAI({
 // Tools
 
 /**
+ * Gets the temperature of a city using the OpenWeatherMap API
  * @param {string} [city=''] 
- * @returns the temperature of the city
+ * @returns {Promise<string>} the temperature of the city
  */
-function getTemperatureDetails(city = '') {
-    switch (city) {
-        case "Delhi":
-            return "39 °C";
-        case "Jaipur":
-            return "47 °C";
-        return "Unknown";
+async function getTemperatureDetails(city = '') {
+    if (!city) {
+        return "Please provide a city name";
+    }
+    
+    try {
+        // You need to sign up at https://openweathermap.org/ to get your API key
+        const WEATHER_API_KEY = "<get keys using url in above comment. It will take ~10 mins to get keys activated>";
+        const url = `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&units=metric&appid=${WEATHER_API_KEY}`;
+        
+        console.log(`Fetching weather data for: ${city}`);
+        const response = await fetch(url);
+        const data = await response.json();
+        
+        console.log("API Response:", JSON.stringify(data));
+        
+        if (data.cod === 200) {
+            return `${data.main.temp} °C`;
+        } else {
+            return `Error: ${data.message || "Unknown error"}`;
+        }
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+        return `Error fetching temperature data: ${error.message}`;
     }
 }
 
@@ -90,7 +109,7 @@ while (true) {
             break;
         } else if (state.type === "execution") {
             const func = toolsMap[state.function];
-            const observation = func(state.input);
+            const observation = await func(state.input);
             const observationJson = {"type": "observation", "observation": observation};
             history.push({role: "developer", content: JSON.stringify(observationJson)});
         }

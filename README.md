@@ -73,3 +73,7 @@ It is able to apply AI over output (e.g. °C to °F conversions)
 ![](./assets/sample5.png)
 ![](./assets/sample6.png)
 ![](./assets/sample7.png)
+
+
+#### 4. Integrating live weather API using Cursor AI editing
+![](./assets/sample8.png)
